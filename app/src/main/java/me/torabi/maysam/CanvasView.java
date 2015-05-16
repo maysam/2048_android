@@ -41,7 +41,7 @@ public class CanvasView  extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        canvas.drawColor(Color.WHITE);
+        canvas.drawColor(Color.YELLOW);
         int side = (int)((parentHeight>parentWidth? parentWidth: parentHeight)/6);
         int left = (parentWidth - side*4)/2;
         int top = (parentHeight- side*4)/2;

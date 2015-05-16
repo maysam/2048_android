@@ -45,14 +45,14 @@ public class MatrixOperations {
         for (int j = 0; j < w; ++j) {
             ret[j] = process_row(matrix[j]);
             if (ret[j][h-1] == 0)
-                ret[j][h-1] = rand.nextInt(3)%2;
+                ret[j][h-1] = (int) Math.pow(rand.nextInt(3), rand.nextInt(3));
         }
 
         return ret;
     }
 
     private static int[] process_row(int[] row) {
-        int[] ret = row.clone();
+        int[] ret = remove_zeros(row);
         int w = 0;
         while(w < row.length-1){
             if ((ret[w] > 0) && (ret[w] == ret[w + 1])) {
@@ -62,7 +62,13 @@ public class MatrixOperations {
             }
             w++;
         }
-        w = 0;
+        ret = remove_zeros(ret);
+        return  ret;
+    }
+
+    private static int[] remove_zeros(int[] row) {
+        int[] ret = row.clone();
+        int w = 0;
         while (w < row.length) {
             if (ret[w] == 0) {
                 int u = w + 1;
@@ -81,7 +87,7 @@ public class MatrixOperations {
                 w++;
             }
         }
-        return  ret;
+        return ret;
     }
 
     private static String stringify(int[] row) {
