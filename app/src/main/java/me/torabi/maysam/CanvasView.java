@@ -16,10 +16,6 @@ import java.util.Random;
 public class CanvasView  extends View {
 
     private Paint paint;
-    private int counter = 0;
-    private int width = 0;
-    private int viewWidth;
-    private int viewHeight;
     private int parentWidth;
     private int parentHeight;
 
@@ -45,25 +41,27 @@ public class CanvasView  extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        counter++;
         canvas.drawColor(Color.WHITE);
         int side = (int)((parentHeight>parentWidth? parentWidth: parentHeight)/6);
         int left = (parentWidth - side*4)/2;
         int top = (parentHeight- side*4)/2;
         paint.setColor(Color.RED);
-        canvas.drawRoundRect(new RectF(left,top,left+4*side, top+4*side), 10, 10, paint);
+        float text_size_dip = side/2;
+        final float scale = getContext().getResources().getDisplayMetrics().density;
+        int text_size = (int) (text_size_dip * scale + 0.5f);
+        paint.setTextSize(text_size);
+        paint.setTextAlign(Paint.Align.CENTER);
+
+        canvas.drawRoundRect(new RectF(left-10,top-10,left+10+4*side, top+10+4*side), 10, 10, paint);
         for (int i=0; i<4; i++) {
             for (int j = 0; j < 4; j++) {
                 paint.setColor(Color.WHITE);
-                canvas.drawRoundRect(new RectF(left + side* i + 10, top+ side* j+10, left+ side+ side* i-10, top+ side+ side* j-10), 20, 20, paint);
+                canvas.drawRect(new RectF(left + side* i + 10, top+ side* j+10, left+ side+ side* i-10, top+ side+ side* j-10), paint);
                 if (numbers[i][j] > 0 ) {
-                    paint.setTextSize(40);
-                    paint.setTextAlign(Paint.Align.CENTER);
                     paint.setColor(Color.BLUE);
-                    canvas.drawText(String.valueOf(numbers[i][j]), (int)(left+5 +side*0.5+ side*i), (int)(top+5 + 0.5*side+ side*j), paint);
+                    canvas.drawText(String.valueOf(numbers[i][j]), (int)(left+5 +side*0.45+ side*i), (int)(top+5 + 0.6*side+ side*j), paint);
                 }
             }
         }
     }
-
 }
