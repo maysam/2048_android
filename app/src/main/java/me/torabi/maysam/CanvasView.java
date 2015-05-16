@@ -23,18 +23,17 @@ public class CanvasView  extends View {
     private int parentWidth;
     private int parentHeight;
 
-    private int numbers[][] = new int[4][4];
+    protected int[][] numbers = null;
 
-    public CanvasView(Context context) {
+    public CanvasView(Context context, int[][] _numbers) {
         super(context);
-
-        // create the Paint and set its color
         paint = new Paint();
-        Random rand = new Random(System.currentTimeMillis());
-        for(int i=0; i<5; i++)
-            numbers[rand.nextInt(4)][rand.nextInt(4)] = 1;
-        for(int i=0; i<10; i++)
-            numbers[rand.nextInt(4)][rand.nextInt(4)] *= 2;
+        numbers = _numbers;
+    }
+
+    public void update_numbers(int[][] _numbers){
+        numbers = _numbers;
+        invalidate();
     }
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {

@@ -1,24 +1,11 @@
 package me.torabi.maysam;
 
-import java.util.Locale;
+import java.util.Random;
 
 import android.app.Activity;
-import android.app.ActionBar;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -26,23 +13,42 @@ public class Profile extends Activity {
 
     private CanvasView canvasView  = null;
 
+    private int[][] numbers = new int[4][4];
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (canvasView == null) {
-            canvasView = new CanvasView(this);
+            Random rand = new Random(System.currentTimeMillis());
+            for(int i=0; i<5; i++)
+                numbers[rand.nextInt(4)][rand.nextInt(4)] = 1;
+            for(int i=0; i<10; i++)
+                numbers[rand.nextInt(4)][rand.nextInt(4)] *= 2;
+            canvasView = new CanvasView(this, numbers);
             canvasView.setOnTouchListener(new OnSwipeTouchListener(this) {
                 public void onSwipeTop() {
-                    Toast.makeText(Profile.this, "top", Toast.LENGTH_SHORT).show();
+                    numbers = MatrixOperations.process(numbers);
+                    canvasView.update_numbers(numbers);
                 }
                 public void onSwipeRight() {
-                    Toast.makeText(Profile.this, "right", Toast.LENGTH_SHORT).show();
+                    numbers = MatrixOperations.rotateRight(numbers);
+                    numbers = MatrixOperations.process(numbers);
+                    numbers = MatrixOperations.rotateLeft(numbers);
+                    canvasView.update_numbers(numbers);
                 }
                 public void onSwipeLeft() {
-                    Toast.makeText(Profile.this, "left", Toast.LENGTH_SHORT).show();
+                    numbers = MatrixOperations.rotateLeft(numbers);
+                    numbers = MatrixOperations.process(numbers);
+                    numbers = MatrixOperations.rotateRight(numbers);
+                    canvasView.update_numbers(numbers);
                 }
                 public void onSwipeBottom() {
-                    Toast.makeText(Profile.this, "bottom", Toast.LENGTH_SHORT).show();
+                    numbers = MatrixOperations.rotateLeft(numbers);
+                    numbers = MatrixOperations.rotateLeft(numbers);
+                    numbers = MatrixOperations.process(numbers);
+                    numbers = MatrixOperations.rotateRight(numbers);
+                    numbers = MatrixOperations.rotateRight(numbers);
+                    canvasView.update_numbers(numbers);
                 }
 
                 public boolean onTouch(View v, MotionEvent event) {
@@ -52,7 +58,6 @@ public class Profile extends Activity {
 
         }
         setContentView(canvasView);
-        Log.e("Prof", "onCreate");
     }
 
 }
