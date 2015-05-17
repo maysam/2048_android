@@ -28,6 +28,15 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
         assertEquals(MatrixOperations.stringify(result), MatrixOperations.stringify(after));
     }
 
+    @FlakyTest
+    public void testing_matrix_rotate_all() {
+        int[][] before = {{1,2},{3,4}};
+        int[][] result = MatrixOperations.rotateRight(MatrixOperations.rotateRight(MatrixOperations.rotateRight(MatrixOperations.rotateRight(before))));
+        assertEquals(MatrixOperations.stringify(result), MatrixOperations.stringify(before));
+        result = MatrixOperations.rotateLeft(MatrixOperations.rotateLeft(MatrixOperations.rotateLeft(MatrixOperations.rotateLeft(before))));
+        assertEquals(MatrixOperations.stringify(result), MatrixOperations.stringify(before));
+    }
+
 
     @FlakyTest
     public void testing_process_1() {

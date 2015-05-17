@@ -45,7 +45,7 @@ public class MatrixOperations {
         for (int j = 0; j < w; ++j) {
             ret[j] = process_row(matrix[j]);
             if (ret[j][h-1] == 0)
-                ret[j][h-1] = (int) Math.pow(rand.nextInt(3), rand.nextInt(3));
+                ret[j][h-1] = (int) (rand.nextInt(2)*Math.pow(rand.nextInt(3), rand.nextInt(3)));
         }
 
         return ret;
@@ -56,7 +56,7 @@ public class MatrixOperations {
         int w = 0;
         while(w < row.length-1){
             if ((ret[w] > 0) && (ret[w] == ret[w + 1])) {
-                ret[w] = row[w] * 2;
+                ret[w] = ret[w] * 2;
                 ret[w+1] = 0;
                 w++;
             }
